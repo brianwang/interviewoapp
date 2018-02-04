@@ -1,0 +1,23 @@
+<header>
+    <h1>Product List ( {{$ctrl.ProductsCount}} )</h1>
+    <input type="text" name="searchkey" ng-model="$ctrl.searchkey">
+    <button ng-click="$ctrl.search()">搜索</button>
+    <login-buttons></login-buttons>
+    <form class="new-task" ng-submit="$ctrl.addProduct($ctrl.newProduct)" ng-show="$ctrl.currentUser">
+        <input ng-model="$ctrl.newProduct.name" type="text" name="name" placeholder="Type to add new product" />
+        <input ng-model="$ctrl.newProduct.price" type="number" name="price" placeholder="Type to add new product price" />
+        <input ng-model="$ctrl.newProduct.description" type="text" name="description" placeholder="Type to add new product" />
+        <button>创建/保存</button>
+    </form>
+</header>
+
+<ul>
+    <li ng-repeat="product in $ctrl.products" ng-class="{'checked': product.checked}">
+        <button class="delete" ng-click="$ctrl.removeProduct(product)">&times;</button>
+        <button class="modify" ng-click="$ctrl.showModify(product)">修改</button>
+        <input type="checkbox" ng-checked="product.checked" ng-click="$ctrl.setChecked(product)" class="toggle-checked" />
+        <span class="text">
+      <strong>{{product.name}}</strong> - {{product.price}}元
+    </span>
+    </li>
+</ul>

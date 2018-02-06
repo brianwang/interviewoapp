@@ -33,9 +33,9 @@ Meteor.methods({
             check(product.name, String);
             check(product.price, NumberAndBigThan0);
         } catch (err) {
-            return alert(err);
+            return console.log(err);
         }
-
+        
 
 
         // Make sure the user is logged in before inserting a task
@@ -44,8 +44,8 @@ Meteor.methods({
         }
         product.createdAt = new Date();
         product.owner = Meteor.userId();
-        console.log(Products);
         id = Products.insert(product);
+        console.log(id);
         ES.create({
             index: 'products',
             type: 'product',
@@ -80,31 +80,33 @@ Meteor.methods({
     },
     'products.search' (key) {
         //this.ES.
-        console.log('search key');
-        ES.search({
+        console.log('search key:'+key);
+        result = ES.search({
             index: 'products',
-            body: {
-                query: {
-                    "bool": {
-                        "should": [{
-                                "match": {
-                                    "name": key
-                                }
-                            },
-                            {
-                                "match": {
-                                    "description": key
-                                }
+            type: 'product',
+            query: {
+                "bool": {
+                    "should": [{
+                            "match": {
+                                "name": key
                             }
-                        ]
-                    }
+                        },
+                        {
+                            "match": {
+                                "description": key
+                            }
+                        }
+                    ]
                 }
             }
-        }, function(error, response) {
-            console.log(response);
-            console.log(error);
-        });
-        return this.Products.find({});
+            
+        }).then(function (body) {
+            console.log(body);
+            var hits = body.hits.hits;
+          }, function (error) {
+            console.trace(error.message);
+          });
+        return result;//this.Products.find({});
     },
     'products.update' (product) {
         console.log(product);

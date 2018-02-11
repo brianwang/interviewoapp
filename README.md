@@ -17,4 +17,10 @@ interview with team214
 4. 增加了input validate，但是是使用的meteor自身的check function
 5. 排序还没有做，本周内继续
 
+2018-2-11
+1. 搜索已经基本完成，目前遇到以下问题
+
+搜索结果无法显示出来，抽空继续
+
+
 
